@@ -4,12 +4,11 @@
 
 sudo apt install -y \
 	git \
-	fzf \
 	zsh \
 	lf \
 	zathura-pdf-poppler \
 	stow \
-	docker \
+	podman \
 	unzip \
 	tmux \
     firefox \
@@ -25,10 +24,6 @@ stow \
 test ! -d ~/.cache/zsh && mkdir -p ~/.cache/zsh
 test ! -f ~/.cache/zsh/history && touch ~/.cache/zsh/history
 
-# Setup the wiki template
-mkdir -p ~/proj
-git clone http://alp.fritz.box:8080/cmk/wiki.git ~/proj/wiki
-
 # Install Neovim using bob
 curl -L -O 'https://github.com/MordechaiHadad/bob/releases/download/v4.1.6/bob-linux-x86_64.zip'
 unzip bob-linux-x86_64.zip
@@ -39,16 +34,20 @@ sudo chmod +x ~/.local/bin/bob
 bob install nightly
 bob use nightly
 
-# Add the regular user to the docker group
-useradd -aG docker $USER
-
 # Generate a GPG key
 printf "Generating a GPG key\n"
 gpg --full-gen-key
 
 # Init password safe
-read -p "Enter the same email used for generating the GPG key: " email
+read email "Enter the same email used for generating the GPG key: "
 pass init $email
+
+# Setup Git
+printf "Setting up Git..."
+read email "Enter your email address: "
+git config --global user.email "${email}"
+read name "Enter your full name: " 
+git config --global user.name "${name}"
 
 # Change the login shell to Z-Shell
 sudo chsh -s $(which zsh)

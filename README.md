@@ -1,4 +1,4 @@
-= WSL Dotfiles =
+# WSL Dotfiles
 
 Use the setup script to install a WSL development environment:
 ```

@@ -4,10 +4,15 @@
 
 sep="================================================================================"
 
+sudo apt update
+
+sudo apt upgrade
+
 sudo apt install \
 	git \
 	zsh \
 	lf \
+    curl \
 	zathura-pdf-poppler \
 	stow \
 	podman \
@@ -25,6 +30,7 @@ stow \
 # Create a history file
 test ! -d ~/.cache/zsh && mkdir -p ~/.cache/zsh
 test ! -f ~/.cache/zsh/history && touch ~/.cache/zsh/history
+printf "\n\n"
 
 # Install Neovim using bob
 printf "${sep}\nInstalling Neovim\n${sep}\n\n"
@@ -45,17 +51,20 @@ printf "\n\n"
 
 # Init password safe
 printf "${sep}\nInitialize Pass\n${sep}\n\n"
-read email "Enter the same email used for generating the GPG key: "
+printf "Enter the same email used for generating the GPG key: "; read email
+printf "\n"
 pass init $email
 printf "\n\n"
 
 # Setup Git
 printf "${sep}\nSetting up Git\n${sep}\n\n"
-read email "Enter your email address: "
+printf "Enter your email address: "; read email
 git config --global user.email "${email}"
-read name "Enter your full name: " 
+printf "\n"
+printf "Enter your full name: "; read name
 git config --global user.name "${name}"
 printf "\n\n"
 
 # Change the login shell to Z-Shell
+printf "${sep}\nChanging the login shell\n${sep}\n\n"
 sudo chsh -s $(which zsh)
